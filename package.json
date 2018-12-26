@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "rbx-net": "^0.4.8",
     "rbx-roact": "^0.1.0",
+    "rbx-services": "^1.0.18",
     "rbx-types": "^1.0.96"
   },
   "devDependencies": {
