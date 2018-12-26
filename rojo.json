@@ -9,6 +9,14 @@
 		"modules": {
 			"path": "modules",
 			"target": "ReplicatedStorage.RobloxTS.Modules"
+		},
+		"server": {
+			"path": "out/server",
+			"target": "ServerScriptService"
+		},
+		"client": {
+			"path": "out/client",
+			"target": "StarterPlayer.StarterPlayerScripts"
 		}
 	}
 }
