@@ -67,4 +67,28 @@ export namespace HttpHandler {
 			return [false, pcallResponse[1]];
 		}
 	}
+	export function postFeedbackComment(feedbackId: string, subject: string, author: number, body: string) {
+		let object = {
+			subject: subject,
+			author: author,
+			body: body
+		}
+		let httpBody = HttpService.JSONEncode(object)
+		let httpOptions: RequestAsyncRequest = {
+			Url: baseUrl + `/feedback/${feedbackId}/comment`,
+			Method: "POST",
+			Headers: { Authorization: "Bearer" + secretToken },
+			Body: httpBody
+		}
+		let pcallResponse = pcall(function() {
+			let response = makeHttpServiceCall(httpOptions);
+			return response;
+		});
+		if (pcallResponse[0]) {
+			const [,response] = pcallResponse;
+			return [true, response.Body]
+		}else{
+			return [false, pcallResponse[1]];
+		}
+	}
 }
