@@ -19,43 +19,50 @@ function makeHttpServiceCall(options: RequestAsyncRequest): RequestAsyncResponse
 }
 
 export namespace HttpHandler {
-	export function getAllFeedback(): [boolean, object | string] {
+	export interface IFeedback {
+		subject: string,
+		author: string,
+		body: string,
+		comments: [{ body: string, author: string, date: string }],
+		date: string,
+	}
+	export function getAllFeedback(): [boolean, IFeedback[] | string] {
 		const pcallResponse = pcall(function() {
 			const response = makeHttpServiceCall({ Url: baseUrl + "/feedback" })
 			return response
 		})
 		if (pcallResponse[0]) {
 			const [, feedback] = pcallResponse
-			return [true, HttpService.JSONDecode(feedback.Body) as object]
+			return [true, HttpService.JSONDecode(feedback.Body) as IFeedback[]]
 		} else {
 			const [, response] = pcallResponse
 			return [false, response]
 		}
 	}
-	export function getMyFeedback(playerId: number): [boolean, object | string] {
+	export function getMyFeedback(playerId: number): [boolean, IFeedback[] | string] {
 		const pcallResponse = pcall(function() {
 			const response = makeHttpServiceCall({ Url: baseUrl + `/feedback/${playerId}` })
 			return response
 		})
 		if (pcallResponse[0]) {
 			const [, feedback] = pcallResponse
-			return [true, HttpService.JSONDecode(feedback.Body) as object]
+			return [true, HttpService.JSONDecode(feedback.Body) as IFeedback[]]
 		} else {
 			return [false, pcallResponse[1]]
 		}
 	}
 	export function postFeedback(subject: string, author: number, body: string): [boolean, string] {
 		const object = {
-			subject,
 			author,
 			body,
+			subject,
 		}
 		const httpBody = HttpService.JSONEncode(object)
 		const httpOptions: RequestAsyncRequest = {
-			Url: baseUrl + "/feedback",
-			Method: "POST",
-			Headers: { Authorization: "Bearer" + secretToken },
 			Body: httpBody,
+			Headers: { Authorization: "Bearer" + secretToken },
+			Method: "POST",
+			Url: baseUrl + "/feedback",
 		}
 		const pcallResponse = pcall(function() {
 			const response = makeHttpServiceCall(httpOptions)
@@ -70,16 +77,16 @@ export namespace HttpHandler {
 	}
 	export function postFeedbackComment(feedbackId: string, subject: string, author: number, body: string): [boolean, string] {
 		const object = {
-			subject,
 			author,
 			body,
+			subject,
 		}
 		const httpBody = HttpService.JSONEncode(object)
 		const httpOptions: RequestAsyncRequest = {
-			Url: baseUrl + `/feedback/${feedbackId}/comment`,
-			Method: "POST",
-			Headers: { Authorization: "Bearer" + secretToken },
 			Body: httpBody,
+			Headers: { Authorization: "Bearer" + secretToken },
+			Method: "POST",
+			Url: baseUrl + `/feedback/${feedbackId}/comment`,
 		}
 		const pcallResponse = pcall(function() {
 			const response = makeHttpServiceCall(httpOptions)

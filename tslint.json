@@ -9,7 +9,8 @@
         "semicolon": [true, "never"],
         "only-arrow-functions": false,
         "no-namespace": false,
-        "no-string-throw": false
+        "no-string-throw": false,
+        "max-line-length": false
     },
     "rulesDirectory": []
 }
