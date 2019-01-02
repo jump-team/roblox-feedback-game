@@ -10,7 +10,8 @@
         "only-arrow-functions": false,
         "no-namespace": false,
         "no-string-throw": false,
-        "max-line-length": false
+        "max-line-length": false,
+        "max-classes-per-file": false
     },
     "rulesDirectory": []
 }
