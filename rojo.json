@@ -17,6 +17,10 @@
 		"client": {
 			"path": "out/client",
 			"target": "StarterPlayer.StarterPlayerScripts"
+		},
+		"shared": {
+			"path": "out/shared",
+			"target": "ReplicatedStorage"
 		}
 	}
 }
