@@ -1,4 +1,5 @@
 import { HttpService } from "rbx-services"
+import { IFeedback } from "shared/IFeedback"
 import { baseUrl, secretToken } from "./config"
 
 function makeHttpServiceCall(options: RequestAsyncRequest): RequestAsyncResponse {
@@ -19,13 +20,6 @@ function makeHttpServiceCall(options: RequestAsyncRequest): RequestAsyncResponse
 }
 
 export namespace HttpHandler {
-	export interface IFeedback {
-		subject: string,
-		author: string,
-		body: string,
-		comments: [{ body: string, author: string, date: string }],
-		date: string,
-	}
 	export function getAllFeedback(): [boolean, IFeedback[] | string] {
 		const pcallResponse = pcall(function() {
 			const response = makeHttpServiceCall({ Url: baseUrl + "/feedback" })
@@ -75,11 +69,10 @@ export namespace HttpHandler {
 			return [false, pcallResponse[1]]
 		}
 	}
-	export function postFeedbackComment(feedbackId: string, subject: string, author: number, body: string): [boolean, string] {
+	export function postFeedbackComment(feedbackId: string, author: number, body: string): [boolean, string] {
 		const object = {
 			author,
 			body,
-			subject,
 		}
 		const httpBody = HttpService.JSONEncode(object)
 		const httpOptions: RequestAsyncRequest = {
