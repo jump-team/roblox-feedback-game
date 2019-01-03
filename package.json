@@ -14,6 +14,7 @@
     "rbx-net": "^0.4.8",
     "rbx-roact": "^0.1.0",
     "rbx-services": "^1.0.18",
+    "rbx-t": "0.0.5",
     "rbx-types": "^1.0.96"
   },
   "devDependencies": {
