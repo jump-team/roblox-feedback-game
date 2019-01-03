@@ -20,32 +20,15 @@ function makeHttpServiceCall(options: RequestAsyncRequest): RequestAsyncResponse
 }
 
 export namespace HttpHandler {
-	export function getAllFeedback(): [boolean, IFeedback[] | string] {
-		const pcallResponse = pcall(function() {
-			const response = makeHttpServiceCall({ Url: baseUrl + "/feedback" })
-			return response
-		})
-		if (pcallResponse[0]) {
-			const [, feedback] = pcallResponse
-			return [true, HttpService.JSONDecode(feedback.Body) as IFeedback[]]
-		} else {
-			const [, response] = pcallResponse
-			return [false, response]
-		}
+	export function getAllFeedback(): IFeedback[] {
+		const response = makeHttpServiceCall({ Url: baseUrl + "/feedback" })
+		return HttpService.JSONDecode(response.Body) as IFeedback[]
 	}
-	export function getMyFeedback(playerId: number): [boolean, IFeedback[] | string] {
-		const pcallResponse = pcall(function() {
-			const response = makeHttpServiceCall({ Url: baseUrl + `/feedback/${playerId}` })
-			return response
-		})
-		if (pcallResponse[0]) {
-			const [, feedback] = pcallResponse
-			return [true, HttpService.JSONDecode(feedback.Body) as IFeedback[]]
-		} else {
-			return [false, pcallResponse[1]]
-		}
+	export function getMyFeedback(playerId: number): IFeedback[] {
+		const response = makeHttpServiceCall({ Url: baseUrl + `/feedback/${playerId}` })
+		return HttpService.JSONDecode(response.Body) as IFeedback[]
 	}
-	export function postFeedback(subject: string, author: number, body: string): [boolean, string] {
+	export function postFeedback(subject: string, author: number, body: string): string {
 		const object = {
 			author,
 			body,
@@ -58,18 +41,10 @@ export namespace HttpHandler {
 			Method: "POST",
 			Url: baseUrl + "/feedback",
 		}
-		const pcallResponse = pcall(function() {
-			const response = makeHttpServiceCall(httpOptions)
-			return response
-		})
-		if (pcallResponse[0]) {
-			const [, response] = pcallResponse
-			return [true, response.Body]
-		} else {
-			return [false, pcallResponse[1]]
-		}
+		const response = makeHttpServiceCall(httpOptions)
+		return response.Body
 	}
-	export function postFeedbackComment(feedbackId: string, author: number, body: string): [boolean, string] {
+	export function postFeedbackComment(feedbackId: string, author: number, body: string): string {
 		const object = {
 			author,
 			body,
@@ -81,15 +56,7 @@ export namespace HttpHandler {
 			Method: "POST",
 			Url: baseUrl + `/feedback/${feedbackId}/comment`,
 		}
-		const pcallResponse = pcall(function() {
-			const response = makeHttpServiceCall(httpOptions)
-			return response
-		})
-		if (pcallResponse[0]) {
-			const [, response] = pcallResponse
-			return [true, response.Body]
-		} else {
-			return [false, pcallResponse[1]]
-		}
+		const response = makeHttpServiceCall(httpOptions)
+		return response.Body
 	}
 }
